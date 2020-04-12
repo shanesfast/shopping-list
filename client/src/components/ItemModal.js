@@ -1,0 +1,51 @@
+import React, { useContext, useState } from 'react';
+import { ShoppingContext } from '../context/ShoppingContext';
+
+import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
+import axios from 'axios';
+
+const ItemModal = () => {
+  const { dispatch } = useContext(ShoppingContext);
+  const [state, setState] = useState({ modal: false, name: '' });
+
+  const toggle = () => {
+    setState({ ...state, modal: !state.modal })
+  }
+
+  const onChange = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    axios.post('/api/items', { name: state.name })
+         .then(res => dispatch({ type: 'UPDATE_LIST', item: res.data }));
+    setState({ modal: !state.modal });
+  }
+
+  return (
+    <div>
+      <Button color="dark" 
+              style={{marginBottom: '2rem'}} 
+              onClick={toggle}>
+        Add Item
+      </Button>
+
+      <Modal isOpen={state.modal}
+             toggle={toggle}>
+        <ModalHeader toggle={toggle}>Add to your list</ModalHeader>
+        <ModalBody>
+          <Form onSubmit={onSubmit}>
+            <FormGroup>
+              <Label for="item">Item</Label>
+              <Input type="text" name="name" id="item" placeholder="Enter the item..." onChange={onChange} />
+              <Button color="dark" style={{marginTop: '2rem'}} block>Add Item</Button>
+            </FormGroup>
+          </Form>
+        </ModalBody>
+      </Modal>
+    </div>
+  );
+}
+
+export default ItemModal;
