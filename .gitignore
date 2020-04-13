@@ -2,6 +2,7 @@
 
 # local development
 /config/
+.env
 
 # dependencies
 /client/node_modules
