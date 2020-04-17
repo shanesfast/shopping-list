@@ -14,13 +14,13 @@ const RegisterModal = () => {
     msg: null
   });
 
-  const { register } = useAuth();
+  const { isAuthenticated, register } = useAuth();
   const { clearErrors } = useError();
   const { errorState } = useContext(ErrorContext);
 
   const toggle = () => {
     clearErrors();
-    setRegisterState({ ...registerState, modal: !registerState.modal });
+    setRegisterState(r => { return { ...r, modal: !registerState.modal } });
   }
 
   const onChange = (e) => {
@@ -51,7 +51,10 @@ const RegisterModal = () => {
     // Check for register errorState
     if (errorState.id === 'REGISTER_FAIL') handleRegisterError(errorState.msg.msg);
     else handleRegisterError(null);
-  }, [errorState.id, errorState.msg.msg]);
+
+    // Close modal if registration is succesful
+    if (registerState.modal && isAuthenticated) setRegisterState(r => { return {...r, modal: false} });
+  }, [errorState.id, errorState.msg.msg, isAuthenticated, registerState.modal]);
 
   return (
     <div>
