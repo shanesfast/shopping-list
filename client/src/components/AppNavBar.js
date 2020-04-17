@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Collapse, Container, Nav, Navbar, NavbarBrand, NavItem, NavbarToggler } from 'reactstrap';
+import Logout from './auth/Logout';
 import RegisterModal from './auth/RegisterModal';
+
+import { Collapse, Container, Nav, Navbar, NavbarBrand, NavItem, NavbarToggler } from 'reactstrap';
 
 const AppNavBar = () => {
   const [state, setState] = useState({
@@ -21,6 +23,10 @@ const AppNavBar = () => {
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <RegisterModal />
+              </NavItem>
+
+              <NavItem>
+                <Logout />
               </NavItem>
             </Nav>
           </Collapse>

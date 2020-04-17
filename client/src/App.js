@@ -3,8 +3,8 @@ import { ShoppingProvider } from './context/ShoppingContext';
 import useAuth from './hooks/useAuth';
 
 import AppNavBar from './components/AppNavBar';
-import ShoppingList from './components/ShoppingList';
 import ItemModal from './components/ItemModal';
+import ShoppingList from './components/ShoppingList';
 
 import { Container } from 'reactstrap';
 

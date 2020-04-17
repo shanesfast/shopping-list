@@ -28,6 +28,11 @@ const useAuth = () => {
     });
   }
 
+  // Logout User
+  function logout() {
+    dispatch({ type: 'LOGOUT_SUCCESS' });
+  }
+
   // Register new user
   function register({ name, email, password }) {
     // Headers
@@ -72,6 +77,7 @@ const useAuth = () => {
   return {
     isAuthenticated,
     loadUser,
+    logout,
     register,
     tokenConfig
   }
