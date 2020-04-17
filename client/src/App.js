@@ -12,10 +12,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function App() {
+  const { loadUser } = useAuth();
+
   useEffect(() => {
-    const { loadUser } = useAuth();
-    
     loadUser();
+    // eslint-disable-next-line
   }, []);
 
   return (

@@ -13,6 +13,39 @@ const useAuth = () => {
     // User loading
     dispatch({ type: 'USER_LOADING' });
 
+    axios.get('/api/auth/user', tokenConfig())
+    .then(res => dispatch({
+      type: 'USER_LOADED',
+      payload: res.data
+    }))
+    .catch(err => { 
+      returnErrors(err.response.data, err.response.status);
+      dispatch({ type: 'AUTH_ERROR' }); 
+    });
+  }
+
+  // Register new user
+  function register({ name, email, password }) {
+    // Headers
+    const config = {
+      headers: {
+        "Content-type": "application/json"
+      }
+    }
+
+    // Request Body
+    const body = JSON.stringify({ name, email, password });
+
+    axios.post('api/users', body, config)
+    .then(res => dispatch({ type: 'REGISTER_SUCCESS', payload: res.data }))
+    .catch(err => {
+      returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL');
+      dispatch({ type: 'REGISTER_FAIL' });
+    });
+  }
+
+  // Setup config/headers and token
+  function tokenConfig() {
     // Get token from state (which is from localStorage)
     const token = state.token;
 
@@ -26,19 +59,13 @@ const useAuth = () => {
     // Add token to headers if it's there
     if (token) config.headers['x-auth-token'] = token;
 
-    axios.get('/api/auth/user', config)
-    .then(res => dispatch({
-      type: 'USER_LOADED',
-      payload: res.data
-    }))
-    .catch(err => { 
-      returnErrors(err.response.data, err.response.status);
-      dispatch({ type: 'AUTH_ERROR' }); 
-    });
+    return config;
   }
 
   return {
-    loadUser
+    loadUser,
+    register,
+    tokenConfig
   }
 };
 

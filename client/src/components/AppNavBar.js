@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container } from 'reactstrap';
+import { Collapse, Container, Nav, Navbar, NavbarBrand, NavItem, NavbarToggler } from 'reactstrap';
+import RegisterModal from './auth/RegisterModal';
 
 const AppNavBar = () => {
   const [state, setState] = useState({
@@ -19,7 +20,7 @@ const AppNavBar = () => {
           <Collapse isOpen={state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="https://github.com/shanesfast/">Github</NavLink>
+                <RegisterModal />
               </NavItem>
             </Nav>
           </Collapse>
