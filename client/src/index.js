@@ -3,9 +3,16 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import { AuthProvider } from './context/AuthContext';
+import { ErrorProvider } from './context/ErrorContext';
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <ErrorProvider>
+        <App />
+      </ErrorProvider>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

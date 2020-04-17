@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ShoppingProvider } from './context/ShoppingContext';
+import useAuth from './hooks/useAuth';
+
 import AppNavBar from './components/AppNavBar';
 import ShoppingList from './components/ShoppingList';
 import ItemModal from './components/ItemModal';
+
 import { Container } from 'reactstrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function App() {
+  useEffect(() => {
+    const { loadUser } = useAuth();
+    
+    loadUser();
+  }, []);
+
   return (
     <div className="App">
       <AppNavBar />
