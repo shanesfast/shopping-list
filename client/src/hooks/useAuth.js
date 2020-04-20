@@ -28,6 +28,29 @@ const useAuth = () => {
     });
   }
 
+  // Login User
+  function login({ email, password }) {
+    // Headers
+    const config = {
+      headers: {
+        "Content-type": "application/json"
+      }
+    }
+
+    // Request Body
+    const body = JSON.stringify({ email, password });
+
+    axios.post('api/auth', body, config)
+    .then(res => {
+      console.log(res.data);
+      dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
+    })
+    .catch(err => {
+      returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL');
+      dispatch({ type: 'LOGIN_FAIL' });
+    });
+  }
+
   // Logout User
   function logout() {
     dispatch({ type: 'LOGOUT_SUCCESS' });
@@ -77,6 +100,7 @@ const useAuth = () => {
   return {
     isAuthenticated,
     loadUser,
+    login,
     logout,
     register,
     tokenConfig

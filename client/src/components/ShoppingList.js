@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import { ShoppingContext } from '../context/ShoppingContext';
+import useAuth from '../hooks/useAuth';
+import useErrors from '../hooks/useError';
 
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -9,9 +11,13 @@ const ShoppingList = () => {
   const { state, dispatch } = useContext(ShoppingContext);
   const { items } = state;
 
+  const { tokenConfig } = useAuth();
+  const { returnErrors } = useErrors();
+
   const removeItem = (_id) => {
-    axios.delete(`/api/items/${_id}`)
-         .then(res => dispatch({ type: 'REMOVE_ITEM', _id }));
+    axios.delete(`/api/items/${_id}`, tokenConfig())
+         .then(res => dispatch({ type: 'REMOVE_ITEM', _id }))
+         .catch(err => returnErrors(err.response.data, err.response.status));
   }
 
   return (

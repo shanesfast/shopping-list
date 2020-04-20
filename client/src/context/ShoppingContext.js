@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import { ShoppingReducer } from '../reducers/ShoppingReducer.js';
+import { ShoppingReducer } from '../reducers/ShoppingReducer';
+import useError from '../hooks/useError';
 
 import axios from 'axios';
 
@@ -11,13 +12,18 @@ export const ShoppingProvider = ({ children }) => {
     loading: false,
   });
 
+  const { returnErrors } = useError();
+
   useEffect(() => {
     const getItems = () => {
       dispatch({ type: 'ITEMS_LOADING' });
-      axios.get('/api/items').then(res => dispatch({ type: 'GET_LIST', list: res.data }))
+      axios.get('/api/items')
+      .then(res => dispatch({ type: 'GET_LIST', list: res.data }))
+      .catch(err => returnErrors(err.response.data, err.response.status));
     }
 
     getItems();
+    // eslint-disable-next-line
   }, []);
 
   return (
